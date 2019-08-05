@@ -88,7 +88,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { onlyCountries, countryCode, onChange } = this.props
+    const { onlyCountries, countryCode, onChange, value } = this.props
 
     if (countryCode) {
       const selectedCountry = onlyCountries.find(country => country.iso2 === countryCode.toLowerCase())
@@ -104,6 +104,14 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
           highlightCountryIndex
         })
       }
+    }
+
+    if (value && this.state.formattedNumber !== value) {
+      const formattedNumber = validateNumber(this.state.selectedCountry, value!)
+      this.setState({
+        number: value!,
+        formattedNumber
+      })
     }
 
     document.addEventListener('keydown', this.handleKeydown)
