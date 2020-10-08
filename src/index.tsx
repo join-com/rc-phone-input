@@ -200,7 +200,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
             className="selected-flag"
             title={`${selectedCountry.name}: + ${selectedCountry.dialCode}`}
           >
-            <div>
+            <div className="country">
               <div className="dial-code">{`+ ${selectedCountry.dialCode}`}</div>
               <div className={arrowClasses} />
             </div>

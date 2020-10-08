@@ -74,6 +74,11 @@
   padding: 0 0 0 8px;
   border-radius: 2px 0 0 2px;
 }
+.rc-phone-input .selected-flag .country {	
+  position: absolute;	
+  top: 50%;	
+  margin-top: -5px;	
+}
 .rc-phone-input .selected-flag .arrow {
   position: relative;
   top: 50%;
