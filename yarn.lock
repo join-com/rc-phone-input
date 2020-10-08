@@ -1024,9 +1024,10 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-country-telephone-data@^0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/country-telephone-data/-/country-telephone-data-0.5.4.tgz#8499acca2eda105b4a16c04661e7eb385cbe4410"
+country-telephone-data@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npmjs.org/country-telephone-data/-/country-telephone-data-0.6.2.tgz#591a82a4ec605a2ab72537425c59a537c10b1990"
+  integrity sha512-DWlv73QKnPLSyGX3lmWVnn7ZIeM/z+Mv1v1pR0fsUMka0/ICDxwAzC2MRsUaNWQKS5a/J5MOm5GcLomDhWJ3Yg==
 
 cpx@^1.5.0:
   version "1.5.0"

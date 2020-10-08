@@ -160,13 +160,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       'open-dropdown': isShowDropDown
     })
 
-    const inputFlagClasses: string = `flag ${selectedCountry.iso2}`
-    const inputFlagStyles = {
-      width: FLAG_WIDTH,
-      height: FLAG_HEIGHT,
-      backgroundImage: `url(${flagsImagePath})`
-    }
-
     const otherProps = inputProps
     if (inputId) {
       otherProps.id = inputId
@@ -207,7 +200,8 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
             className="selected-flag"
             title={`${selectedCountry.name}: + ${selectedCountry.dialCode}`}
           >
-            <div className={inputFlagClasses} style={inputFlagStyles}>
+            <div className="country">
+              <div className="dial-code">{`+ ${selectedCountry.dialCode}`}</div>
               <div className={arrowClasses} />
             </div>
           </div>
@@ -629,13 +623,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
           highlight: highlightCountryIndex === index
         })
 
-        const inputFlagClasses = `flag ${country.iso2}`
-        const inputFlagStyles = {
-          width: FLAG_WIDTH,
-          height: FLAG_HEIGHT,
-          backgroundImage: `url(${flagsImagePath})`
-        }
-
         return (
           <li
             ref={el => {
@@ -648,7 +635,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
             data-country-code={country.iso2}
             onClick={() => this.handleFlagItemClick(country)}
           >
-            <div className={inputFlagClasses} style={inputFlagStyles} />
             <span className="country-name">{country.name}</span>
             <span className="dial-code">{'+' + country.dialCode}</span>
           </li>
@@ -690,7 +676,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     number?: string
     formattedNumber?: string
   }) => {
-    const { onlyCountries, onChange } = this.props
+    const { onChange } = this.props
     const { selectedCountry, number, formattedNumber } = this.state
     if (typeof onChange === 'function') {
       onChange({ country: selectedCountry, number, formattedNumber, ...args })
