@@ -62,7 +62,9 @@ describe('react telephone input', () => {
       />
     )
     expect(wrapper.find('div.flag-dropdown')).to.have.length(1)
-    expect(wrapper.find('div.selected-flag > div.us')).to.have.length(1)
+
+    expect(wrapper.find('div.selected-flag div.dial-code')).to.have.length(1)
+    expect(wrapper.find('div.selected-flag div.dial-code').text()).equal('+1')
 
     expect(wrapper.find('ul.country-list')).to.have.length(0)
     wrapper.find('div.selected-flag').simulate('click')
@@ -70,7 +72,8 @@ describe('react telephone input', () => {
 
     wrapper.find('ul.country-list > li').at(1).simulate('click')
     expect(wrapper.find('ul.country-list')).to.have.length(0)
-    expect(wrapper.find('div.selected-flag > div.ca')).to.have.length(1)
+    expect(wrapper.find('div.selected-flag div.dial-code')).to.have.length(1)
+    expect(wrapper.find('div.selected-flag div.dial-code').text()).equal('+1')
   })
 
   it('should allow custom value for autoComplete input property', () => {
