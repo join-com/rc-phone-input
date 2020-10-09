@@ -57,7 +57,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     disabled: false,
     autoComplete: 'tel',
     required: false,
-    inputProps: {}
+    inputProps: {},
   }
   private numberInputRef: HTMLInputElement | null
   private flagDropDownButtonRef: HTMLDivElement | null
@@ -69,8 +69,8 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     const { preferredCountries } = this.props
 
     const nextPreferredCountries = preferredCountries
-      .filter(iso2 => iso2Lookup.hasOwnProperty(iso2))
-      .map(iso2 =>
+      .filter((iso2) => iso2Lookup.hasOwnProperty(iso2))
+      .map((iso2) =>
         iso2Lookup.hasOwnProperty(iso2) ? allCountries[iso2Lookup[iso2]] : null
       )
 
@@ -82,7 +82,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       freezeSelection: false,
       debouncedQueryStingSearcher: () =>
         window.setTimeout(this.searchCountry, 300),
-      ...this.mapPropsToState(this.props)
+      ...this.mapPropsToState(this.props),
     }
   }
 
@@ -91,10 +91,10 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
 
     if (!value && countryCode) {
       const selectedCountry = onlyCountries.find(
-        country => country.iso2 === countryCode.toLowerCase()
+        (country) => country.iso2 === countryCode.toLowerCase()
       )
       const highlightCountryIndex = allCountries.findIndex(
-        item => item === selectedCountry
+        (item) => item === selectedCountry
       )
 
       if (selectedCountry && highlightCountryIndex) {
@@ -104,7 +104,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
 
         this.setState({
           selectedCountry,
-          highlightCountryIndex
+          highlightCountryIndex,
         })
       }
     }
@@ -118,7 +118,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       const formattedNumber = validateNumber(this.state.selectedCountry, value!)
       this.setState({
         number: value!,
-        formattedNumber
+        formattedNumber,
       })
     }
   }
@@ -136,22 +136,22 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       autoComplete,
       required,
       disabled,
-      placeholder
+      placeholder,
     } = this.props
     const { number, isShowDropDown, selectedCountry } = this.state
     const arrowClasses: string = classNames({
       arrow: true,
-      up: isShowDropDown
+      up: isShowDropDown,
     })
 
     const inputClasses: string = classNames({
       'form-control': true,
-      'invalid-number': typeof isValid === 'function' && !isValid(number)
+      'invalid-number': typeof isValid === 'function' && !isValid(number),
     })
 
     const flagViewClasses: string = classNames({
       'flag-dropdown': true,
-      'open-dropdown': isShowDropDown
+      'open-dropdown': isShowDropDown,
     })
 
     const otherProps = inputProps
@@ -162,14 +162,14 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     return (
       <div className={classNames('rc-phone-input', className)}>
         <div
-          ref={el => {
+          ref={(el) => {
             this.flagDropDownButtonRef = el
           }}
           className={flagViewClasses}
           onKeyDown={this.handleKeydown}
         >
           <div
-            ref={el => {
+            ref={(el) => {
               this.selectedFlagRef = el
             }}
             onClick={this.handleFlagDropdownClick}
@@ -227,14 +227,14 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     }
 
     const selectedCountryGuessIndex = allCountries.findIndex(
-      item => item === selectedCountryGuess
+      (item) => item === selectedCountryGuess
     )
 
     return {
       selectedCountry: selectedCountryGuess,
       highlightCountryIndex: selectedCountryGuessIndex,
       formattedNumber,
-      number
+      number,
     }
   }
 
@@ -284,7 +284,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     }
 
     const secondBestGuess =
-      allCountries.find(country => country.iso2 === defaultCountry) ||
+      allCountries.find((country) => country.iso2 === defaultCountry) ||
       onlyCountries[0]
 
     const inputNumberForCountries = inputNumber.substr(0, 4)
@@ -340,7 +340,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       isShowDropDown,
       selectedCountry,
       preferredCountries,
-      highlightCountryIndex
+      highlightCountryIndex,
     } = this.state
 
     if (disabled) {
@@ -352,11 +352,11 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       {
         isShowDropDown: !isShowDropDown,
         highlightCountry: onlyCountries.find(
-          country => country.iso2 === selectedCountry.iso2
+          (country) => country.iso2 === selectedCountry.iso2
         ),
         highlightCountryIndex: preferredCountries
           .concat(onlyCountries)
-          .findIndex(country => country.iso2 === selectedCountry.iso2)
+          .findIndex((country) => country.iso2 === selectedCountry.iso2),
       },
       () => {
         this.scrollTo(
@@ -390,13 +390,13 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     this.setState({
       formattedNumber,
       number: nextNumber,
-      freezeSelection: nextFreezeSelection
+      freezeSelection: nextFreezeSelection,
     })
 
     this.handleChange({
       country: selectedCountry,
       number: nextNumber,
-      formattedNumber
+      formattedNumber,
     })
   }
 
@@ -411,7 +411,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     const { onlyCountries, onChange } = this.props
     const { selectedCountry, number } = this.state
     const nextSelectedCountry = onlyCountries.find(
-      item => item.iso2 === country.iso2
+      (item) => item.iso2 === country.iso2
     )
 
     if (
@@ -425,7 +425,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
           isShowDropDown: false,
           formattedNumber,
           selectedCountry: nextSelectedCountry,
-          freezeSelection: true
+          freezeSelection: true,
         },
         () => {
           if (this.numberInputRef) {
@@ -469,20 +469,20 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     const { onlyCountries } = this.props
     const { queryString, preferredCountries } = this.state
 
-    const probableCountries = onlyCountries.filter(country =>
+    const probableCountries = onlyCountries.filter((country) =>
       country.name.toLowerCase().startsWith(queryString.toLowerCase())
     )
 
     const probableCandidate = probableCountries[0] || onlyCountries[0]
     const probableCandidateIndex =
-      onlyCountries.findIndex(item => item === probableCandidate) +
+      onlyCountries.findIndex((item) => item === probableCandidate) +
       preferredCountries.length
 
     this.scrollTo(this.getElement(probableCandidateIndex), true)
 
     this.setState({
       queryString: '',
-      highlightCountryIndex: probableCandidateIndex
+      highlightCountryIndex: probableCandidateIndex,
     })
   }
 
@@ -492,7 +492,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       highlightCountryIndex,
       preferredCountries,
       queryString,
-      debouncedQueryStingSearcher
+      debouncedQueryStingSearcher,
     } = this.state
     const { onlyCountries } = this.props
 
@@ -509,7 +509,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     const moveHighlight = (direction: number): void => {
       this.setState(
         {
-          highlightCountryIndex: this.getHighlightCountryIndex(direction)
+          highlightCountryIndex: this.getHighlightCountryIndex(direction),
         },
         () => {
           this.scrollTo(this.getElement(highlightCountryIndex), true)
@@ -540,7 +540,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
         ) {
           this.setState(
             {
-              queryString: queryString + String.fromCharCode(event.which)
+              queryString: queryString + String.fromCharCode(event.which),
             },
             debouncedQueryStingSearcher
           )
@@ -590,10 +590,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
         break
       }
     }
-    nextPlaceholder = nextPlaceholder
-      .join('')
-      .trim()
-      .split('')
+    nextPlaceholder = nextPlaceholder.join('').trim().split('')
 
     if (nextPlaceholder[0] === '-' || nextPlaceholder[0] === ')') {
       nextPlaceholder.shift()
@@ -603,7 +600,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
   }
 
   private getCountryDropDownList = (): JSX.Element => {
-    const { flagsImagePath, onlyCountries } = this.props
+    const { onlyCountries } = this.props
     const { preferredCountries, highlightCountryIndex } = this.state
 
     const countryDropDownList: JSX.Element[] = preferredCountries
@@ -612,14 +609,14 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
         const itemClasses = classNames({
           country: true,
           preferred: preferredCountries.some(
-            item => item.iso2 === country.iso2
+            (item) => item.iso2 === country.iso2
           ),
-          highlight: highlightCountryIndex === index
+          highlight: highlightCountryIndex === index,
         })
 
         return (
           <li
-            ref={el => {
+            ref={(el) => {
               this[`flag_no_${index}`] = el
             }}
             key={`flag_no_${index}`}
@@ -642,12 +639,12 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
 
     const dropDownClasses: string = classNames({
       'country-list': true,
-      hide: !this.state.isShowDropDown
+      hide: !this.state.isShowDropDown,
     })
 
     return (
       <ul
-        ref={el => {
+        ref={(el) => {
           this.flagDropdownListRef = el
         }}
         className={dropDownClasses}
