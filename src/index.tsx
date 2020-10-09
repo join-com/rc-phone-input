@@ -167,24 +167,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
 
     return (
       <div className={classNames('rc-phone-input', className)}>
-        <input
-          onChange={this.handleInput}
-          onClick={this.handleInputClick}
-          onFocus={this.handleInputFocus}
-          onBlur={this.handleInputBlur}
-          onKeyDown={this.handleInputKeyDown}
-          value={number}
-          ref={el => {
-            this.numberInputRef = el
-          }}
-          type="tel"
-          className={inputClasses}
-          autoComplete={autoComplete}
-          required={required}
-          placeholder={placeholder}
-          disabled={disabled}
-          {...otherProps}
-        />
         <div
           ref={el => {
             this.flagDropDownButtonRef = el
@@ -207,6 +189,24 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
           </div>
           {isShowDropDown ? this.getCountryDropDownList() : ''}
         </div>
+        <input
+          onChange={this.handleInput}
+          onClick={this.handleInputClick}
+          onFocus={this.handleInputFocus}
+          onBlur={this.handleInputBlur}
+          onKeyDown={this.handleInputKeyDown}
+          value={number}
+          ref={(el) => {
+            this.numberInputRef = el
+          }}
+          type="tel"
+          className={inputClasses}
+          autoComplete={autoComplete}
+          required={required}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...otherProps}
+        />
       </div>
     )
   }
