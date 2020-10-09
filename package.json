@@ -4,12 +4,18 @@
   "description": "React component for entering telephone numbers",
   "main": "lib",
   "modules": "lib",
+  "sideEffects": false,
+  "jsnext:main": "esm/index.js",
+  "module": "esm/index.js",
+  "modules.root": "esm",
   "files": [
     "css",
     "lib"
   ],
   "scripts": {
-    "build": "tsc",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build": "yarn build:cjs && yarn build:esm",
     "dev": "webpack-dev-server",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "test": "jest",
