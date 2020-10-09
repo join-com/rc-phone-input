@@ -214,7 +214,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       selectedCountryGuess = this.guessSelectedCountry(props.value)
       if (selectedCountryGuess) {
         if (props.value.startsWith('+' + selectedCountryGuess.dialCode)) {
-          number = props.value.split(selectedCountryGuess.dialCode)[1]
+          number = props.value.split('+' + selectedCountryGuess.dialCode)[1]
         } else {
           number = props.value
         }
