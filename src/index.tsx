@@ -8,9 +8,6 @@ import { ICountry, validateNumber } from './helpers'
 
 const { allCountries, iso2Lookup, allCountryCodes } = countryData
 
-const FLAG_WIDTH: number = 16
-const FLAG_HEIGHT: number = 11
-
 interface IProps {
   value?: string
   initialValue?: string
@@ -27,7 +24,6 @@ interface IProps {
   disabled: boolean
   required: boolean
   inputProps: { id?: string }
-  flagsImagePath?: string
   autoComplete?: string
   placeholder?: string
   countryCode?: string
@@ -58,7 +54,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     preferredCountries: [],
     onlyCountries: allCountries,
     defaultCountry: allCountries[0].iso2,
-    flagsImagePath: './images/flags.png',
     disabled: false,
     autoComplete: 'tel',
     required: false,
@@ -141,7 +136,6 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       autoComplete,
       required,
       disabled,
-      flagsImagePath,
       placeholder
     } = this.props
     const { number, isShowDropDown, selectedCountry } = this.state
