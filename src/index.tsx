@@ -34,12 +34,13 @@ interface IState {
   selectedCountry: ICountry
   highlightCountry?: ICountry
   highlightCountryIndex: number
+  countryNameMatchCount: number
   formattedNumber?: string
   number: string
   isShowDropDown: boolean
   freezeSelection: boolean
   queryString: string
-  debouncedQueryStingSearcher: () => number
+  debouncedQueryStringSearcher: () => number
 }
 
 interface IPartialState {
@@ -80,7 +81,8 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       queryString: '',
       number: '',
       freezeSelection: false,
-      debouncedQueryStingSearcher: () =>
+      countryNameMatchCount: 0,
+      debouncedQueryStringSearcher: () =>
         window.setTimeout(this.searchCountry, 300),
       ...this.mapPropsToState(this.props),
     }
@@ -119,6 +121,13 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       this.setState({
         number: value!,
         formattedNumber,
+      })
+    }
+
+    if (prevState.isShowDropDown && !this.state.isShowDropDown) {
+      this.setState({
+        queryString: '',
+        countryNameMatchCount: 0
       })
     }
   }
@@ -481,7 +490,8 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     this.scrollTo(this.getElement(probableCandidateIndex), true)
 
     this.setState({
-      queryString: '',
+      queryString: probableCandidateIndex ? queryString : '',
+      countryNameMatchCount: probableCandidateIndex ? queryString.length : 0,
       highlightCountryIndex: probableCandidateIndex,
     })
   }
@@ -492,7 +502,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       highlightCountryIndex,
       preferredCountries,
       queryString,
-      debouncedQueryStingSearcher,
+      debouncedQueryStringSearcher,
     } = this.state
     const { onlyCountries } = this.props
 
@@ -533,6 +543,8 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
       case Keys.ESC:
         this.setState({ isShowDropDown: false })
         break
+      case Keys.BACKSPACE:
+        this.setState({ queryString: queryString.slice(0, -1) }, debouncedQueryStringSearcher)
       default:
         if (
           (event.which >= Keys.A && event.which <= Keys.Z) ||
@@ -542,7 +554,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
             {
               queryString: queryString + String.fromCharCode(event.which),
             },
-            debouncedQueryStingSearcher
+            debouncedQueryStringSearcher
           )
         }
     }
@@ -599,6 +611,33 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
     return nextPlaceholder.join('').trim()
   }
 
+  private renderCountryName = (countryName: string, index: number) => {
+    const {
+      countryNameMatchCount,
+      highlightCountryIndex
+    } = this.state;
+
+    const shouldHighlightMatch = countryNameMatchCount && highlightCountryIndex === index
+
+    if (!shouldHighlightMatch) {
+      return (
+        <span className="country-name">
+          {countryName}
+        </span>
+      )
+    } else {
+      const highlightedMatch = countryName.substring(0, countryNameMatchCount)
+      const restText = countryName.substring(countryNameMatchCount)
+
+      return (
+        <span className="country-name">
+          <span className="suggestion-match">{highlightedMatch}</span>
+          {restText}
+        </span>
+      )
+    }
+  }
+
   private getCountryDropDownList = (): JSX.Element => {
     const { onlyCountries } = this.props
     const { preferredCountries, highlightCountryIndex } = this.state
@@ -626,7 +665,7 @@ export class RCPhoneInput extends React.Component<IProps, IState> {
             data-country-code={country.iso2}
             onClick={() => this.handleFlagItemClick(country)}
           >
-            <span className="country-name">{country.name}</span>
+            {this.renderCountryName(country.name, index)}
             <span className="dial-code">{'+' + country.dialCode}</span>
           </li>
         )
