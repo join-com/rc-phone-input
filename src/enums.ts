@@ -8,5 +8,6 @@ export enum Keys {
   PLUS = 43,
   A = 65,
   Z = 90,
-  SPACE = 32
+  SPACE = 32,
+  BACKSPACE = 8,
 }

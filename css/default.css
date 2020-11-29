@@ -130,3 +130,8 @@
 .rc-phone-input .country-list .country-name {
   margin-right: 6px;
 }
+
+.rc-phone-input .country-list .country-name .suggestion-match {
+  font-weight: 700;
+  color: #258aff
+}
