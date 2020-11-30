@@ -230,12 +230,13 @@ var RCPhoneInput = /** @class */ (function (_super) {
                 preferredCountries.length;
             _this.scrollTo(_this.getElement(probableCandidateIndex), true);
             _this.setState({
-                queryString: '',
+                queryString: probableCandidateIndex ? queryString : '',
+                countryNameMatchCount: probableCandidateIndex ? queryString.length : 0,
                 highlightCountryIndex: probableCandidateIndex,
             });
         };
         _this.handleKeydown = function (event) {
-            var _a = _this.state, isShowDropDown = _a.isShowDropDown, highlightCountryIndex = _a.highlightCountryIndex, preferredCountries = _a.preferredCountries, queryString = _a.queryString, debouncedQueryStingSearcher = _a.debouncedQueryStingSearcher;
+            var _a = _this.state, isShowDropDown = _a.isShowDropDown, highlightCountryIndex = _a.highlightCountryIndex, preferredCountries = _a.preferredCountries, queryString = _a.queryString, debouncedQueryStringSearcher = _a.debouncedQueryStringSearcher;
             var onlyCountries = _this.props.onlyCountries;
             if (!isShowDropDown) {
                 return;
@@ -266,12 +267,14 @@ var RCPhoneInput = /** @class */ (function (_super) {
                 case Keys.ESC:
                     _this.setState({ isShowDropDown: false });
                     break;
+                case Keys.BACKSPACE:
+                    _this.setState({ queryString: queryString.slice(0, -1) }, debouncedQueryStringSearcher);
                 default:
                     if ((event.which >= Keys.A && event.which <= Keys.Z) ||
                         event.which === Keys.SPACE) {
                         _this.setState({
                             queryString: queryString + String.fromCharCode(event.which),
-                        }, debouncedQueryStingSearcher);
+                        }, debouncedQueryStringSearcher);
                     }
             }
         };
@@ -314,6 +317,20 @@ var RCPhoneInput = /** @class */ (function (_super) {
             }
             return nextPlaceholder.join('').trim();
         };
+        _this.renderCountryName = function (countryName, index) {
+            var _a = _this.state, countryNameMatchCount = _a.countryNameMatchCount, highlightCountryIndex = _a.highlightCountryIndex;
+            var shouldHighlightMatch = countryNameMatchCount && highlightCountryIndex === index;
+            if (!shouldHighlightMatch) {
+                return (React.createElement("span", { className: "country-name" }, countryName));
+            }
+            else {
+                var highlightedMatch = countryName.substring(0, countryNameMatchCount);
+                var restText = countryName.substring(countryNameMatchCount);
+                return (React.createElement("span", { className: "country-name" },
+                    React.createElement("span", { className: "suggestion-match" }, highlightedMatch),
+                    restText));
+            }
+        };
         _this.getCountryDropDownList = function () {
             var onlyCountries = _this.props.onlyCountries;
             var _a = _this.state, preferredCountries = _a.preferredCountries, highlightCountryIndex = _a.highlightCountryIndex;
@@ -328,7 +345,7 @@ var RCPhoneInput = /** @class */ (function (_super) {
                 return (React.createElement("li", { ref: function (el) {
                         _this["flag_no_" + index] = el;
                     }, key: "flag_no_" + index, "data-flag-key": "flag_no_" + index, className: itemClasses, "data-dial-code": "1", "data-country-code": country.iso2, onClick: function () { return _this.handleFlagItemClick(country); } },
-                    React.createElement("span", { className: "country-name" }, country.name),
+                    _this.renderCountryName(country.name, index),
                     React.createElement("span", { className: "dial-code" }, '+' + country.dialCode)));
             });
             var dashedLi = React.createElement("li", { key: 'dashes', className: "divider" });
@@ -363,7 +380,7 @@ var RCPhoneInput = /** @class */ (function (_super) {
             .map(function (iso2) {
             return iso2Lookup.hasOwnProperty(iso2) ? allCountries[iso2Lookup[iso2]] : null;
         });
-        _this.state = __assign({ preferredCountries: nextPreferredCountries, isShowDropDown: false, queryString: '', number: '', freezeSelection: false, debouncedQueryStingSearcher: function () {
+        _this.state = __assign({ preferredCountries: nextPreferredCountries, isShowDropDown: false, queryString: '', number: '', freezeSelection: false, countryNameMatchCount: 0, debouncedQueryStringSearcher: function () {
                 return window.setTimeout(_this.searchCountry, 300);
             } }, _this.mapPropsToState(_this.props));
         return _this;
@@ -392,6 +409,12 @@ var RCPhoneInput = /** @class */ (function (_super) {
             this.setState({
                 number: value,
                 formattedNumber: formattedNumber,
+            });
+        }
+        if (prevState.isShowDropDown && !this.state.isShowDropDown) {
+            this.setState({
+                queryString: '',
+                countryNameMatchCount: 0
             });
         }
     };

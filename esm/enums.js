@@ -10,5 +10,6 @@ export var Keys;
     Keys[Keys["A"] = 65] = "A";
     Keys[Keys["Z"] = 90] = "Z";
     Keys[Keys["SPACE"] = 32] = "SPACE";
+    Keys[Keys["BACKSPACE"] = 8] = "BACKSPACE";
 })(Keys || (Keys = {}));
 //# sourceMappingURL=enums.js.map
